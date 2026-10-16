@@ -42,7 +42,6 @@ Backend y ambos frontends comparten el mismo contrato de datos (definido en `pac
 _Última actualización: 2026-10-16._ Las preguntas de alcance y las inconsistencias quedaron resueltas (ver tabla de arriba). Falta:
 
 - [ ] **Revisión final** de los 3 requirements por la usuaria y pasarlos a ✅ Aprobado.
-- [ ] Hacer el primer commit (ver "Repo").
 
 ### Para resolver directamente en `design.md`
 - Sesión en progreso duplicada (backend Req. 5.1.3): ¿se reanuda la existente o se exige cerrarla antes?
@@ -51,9 +50,6 @@ _Última actualización: 2026-10-16._ Las preguntas de alcance y las inconsisten
 - **Unidades canónicas:** guardar siempre en una unidad fija (propuesta: kg, metros, segundos) y convertir en el cliente según las preferencias, vs. guardar el valor con su unidad original. Afecta a PRs y gráficos.
 - **Idempotencia de sets (backend Req. 5.2.8):** UUID generado en el cliente como id del set (upsert) vs. header `Idempotency-Key`.
 - **Cola offline en mobile (mobile Req. 4.4):** dónde se guarda (MMKV vs SQLite) y cómo se ordenan los reintentos.
-
-### Repo
-- [ ] Hacer el primer commit (el repo todavía no tiene commits; `README.md` y `specs/` están sin trackear).
 
 ## Decisiones pendientes para `design.md`
 
