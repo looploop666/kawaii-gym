@@ -1,6 +1,6 @@
 # 0003 — Mobile con Expo
 
-**Estado:** Propuesto · **Fecha:** 2026-10-21
+**Estado:** Aceptado · **Fecha:** 2026-10-21
 
 ## Contexto
 
