@@ -1,94 +1,74 @@
 # Specs — Kawaii Gym
 
-Índice de la documentación de spec-driven development. Orden de trabajo: **requirements → design → tasks**.
+Spec-driven development **por feature**: cada feature pasa por `requirements.md → design.md → tasks.md` y se implementa antes de especificar en detalle el siguiente. Así cada revisión es corta y lo que se aprende al construir uno alimenta a los demás.
 
-## Estado
+## Features del MVP
 
-| Documento | Descripción | Estado |
-|---|---|---|
-| [requirements-backend.md](./requirements-backend.md) | Requerimientos de la API (NestJS) | 📝 En revisión |
-| [requirements-web.md](./requirements-web.md) | Requerimientos del frontend web | 📝 En revisión |
-| [requirements-mobile.md](./requirements-mobile.md) | Requerimientos del frontend mobile | 📝 En revisión |
-| `design.md` | Modelo de datos, arquitectura, contratos de API | ⏳ Pendiente (después de aprobar requirements) |
-| `tasks.md` | Desglose de tareas de implementación | ⏳ Pendiente (después de aprobar design) |
+| # | Feature | Requirements | Design | Tasks |
+|---|---|---|---|---|
+| 01 | [Autenticación](./features/01-auth/requirements.md) | 📝 En revisión | ⏳ | ⏳ |
+| 02 | [Perfil y preferencias](./features/02-perfil/requirements.md) | 📝 En revisión | ⏳ | ⏳ |
+| 03 | [Catálogo de ejercicios](./features/03-ejercicios/requirements.md) | 📝 En revisión | ⏳ | ⏳ |
+| 04 | [Rutinas](./features/04-rutinas/requirements.md) | 📝 En revisión | ⏳ | ⏳ |
+| 05 | [Compartir e importar](./features/05-compartir/requirements.md) | 📝 En revisión | ⏳ | ⏳ |
+| 06 | [Sesiones de entrenamiento](./features/06-sesiones/requirements.md) | 📝 En revisión | ⏳ | ⏳ |
+| 07 | [Sesión sin conexión (mobile)](./features/07-offline/requirements.md) | 📝 En revisión | ⏳ | ⏳ |
+| 08 | [Historial, progreso y PRs](./features/08-historial/requirements.md) | 📝 En revisión | ⏳ | ⏳ |
 
-## Alcance general del producto
+Además:
 
-Kawaii Gym permite a un usuario:
+- [engineering-standards.md](./engineering-standards.md): reglas que valen para todo el proyecto (seguridad, datos, testing, observabilidad, CI/CD).
+- [design-backlog.md](./design-backlog.md): decisiones de "cómo" pendientes, agrupadas por feature.
 
-1. Crear **rutinas de entrenamiento** (plantillas) compuestas por ejercicios con series/repeticiones/peso objetivo.
-2. **Compartir** esas rutinas con otros usuarios, que pueden importarlas a su propia cuenta.
-3. Iniciar una **sesión de entrenamiento** a partir de una rutina y **registrar** lo realmente hecho en cada serie: peso y repeticiones, tiempo o distancia según el ejercicio, más RPE y notas opcionales.
-4. Ver el **historial y progreso** por ejercicio a lo largo del tiempo (PRs, gráficos).
-5. Calcular qué **discos** poner en la barra para el peso de un set.
+## Cómo se escribe un `requirements.md`
 
-**Plataformas del MVP:** web + Android. iOS llega junto con el login con Apple.
+- **Solo comportamiento observable** (qué hace el sistema). Librerías, algoritmos y modelado van en `design.md` o en el backlog.
+- **Una sección por plataforma** dentro del mismo archivo: API, Web, Mobile. Los clientes no repiten las reglas de la API; las referencian por id.
+- **Ids estables** (`AUTH-3`, `SES-W2`) para referenciarlos desde design, tasks y tests.
+- **EARS (WHEN/IF … THEN … SHALL) solo donde hay lógica que puede salir mal.** Para lo simple alcanza una regla corta.
 
-Backend y ambos frontends comparten el mismo contrato de datos (definido en `packages/shared` en la fase de diseño).
+## Producto
 
-## Decisiones de alcance (2026-10-16)
+Clon de [Strong](https://www.strong.app/). Un usuario puede:
 
-| Tema | Decisión | Dónde quedó |
-|---|---|---|
-| Dominio de Strong | Entran al MVP: cardio (tiempo/distancia), notas por ejercicio y por sesión, RPE por set y calculadora de discos. | Backend Glosario, Req. 1.4, 2.1.3, 2.2.5, 3.1.2, 5.2, 5.3.3, 6.2, 6.3. Mobile Req. 4.2, 4.6. Web Req. 5.1, 5.3. |
-| Tipos de métrica | `peso_reps`, `reps`, `tiempo`, `distancia_tiempo`. No se puede cambiar el tipo de un ejercicio que ya tiene sets. | Backend Glosario, Req. 2.1.3, 2.2.5, 5.2.1–5.2.2 |
-| Offline en mobile | Simplificado: solo la sesión en curso funciona sin conexión, con reintento automático e idempotente. El offline completo queda fuera del MVP. | Mobile Req. 3.1.2, 4.4. Backend Req. 5.2.8. |
-| iOS | Fuera del MVP. MVP = web + Android. El código RN sigue siendo compatible con iOS. | Mobile Req. 7.3 y "Fuera de alcance" |
-| Preferencias | Se guardan en el perfil del backend (compartidas entre web y mobile): unidades, incremento de peso, descanso por defecto, barra y discos. | Backend Req. 1.4.1, 1.4.5. Web Req. 7.1. |
-| Resto del alcance | Sin cambios. | — |
+1. Crear **rutinas** (plantillas) con ejercicios y series objetivo.
+2. **Compartirlas** por link para que otros las importen.
+3. **Registrar sesiones** a partir de una rutina: peso y reps, tiempo o distancia según el ejercicio, más RPE y notas.
+4. Ver **historial y progreso** por ejercicio (PRs, gráficos).
+5. Calcular qué **discos** poner en la barra.
 
-## Prácticas técnicas (2026-10-20)
+**Plataformas del MVP:** web + Android. iOS llega junto con el login con Apple. Web es el lugar cómodo para **planificar y analizar**; mobile es la app **primaria para entrenar** en el gimnasio.
 
-Qué tomamos de un roadmap de "backend más allá del CRUD" y qué dejamos afuera, para no sobredimensionar el MVP.
+## Glosario
 
-| Práctica | Cómo se aplica en Kawaii Gym | Dónde quedó |
-|---|---|---|
-| ADRs | Cada decisión de la lista "Para resolver directamente en design.md" se documenta como ADR en `docs/adr/`. | Backend Req. 7.8 |
-| PostgreSQL a fondo | Constraints `CHECK` por tipo de métrica, índices para historial/progreso validados con `EXPLAIN ANALYZE`, transacción al finalizar/editar sesión + recálculo de PRs. | Backend Req. 7.4.2, 7.5 |
-| Resiliencia | Sets idempotentes (id generado en el cliente) y cola offline con reintentos y backoff en mobile. | Backend Req. 5.2.8. Mobile Req. 4.4 |
-| Observabilidad básica | Logs JSON con `pino`, request id, `/health` con `@nestjs/terminus`. | Backend Req. 7.6 |
-| CI/CD e IaC | GitHub Actions (lint, tipos, tests, build) en cada PR; infra con Terraform; migraciones automáticas. | Backend Req. 7.7 |
-| Eventos de dominio | En proceso con `@nestjs/event-emitter` (ej. `SessionFinished` → PRs/estadísticas), sin broker externo. Si hace falta trabajo en background, BullMQ + Redis. | A definir en `design.md` |
-| Fuera del MVP | Kafka/RabbitMQ, Kubernetes, OpenTelemetry, durable execution, streaming en tiempo real, IA (pgvector, AI gateway). | Backend "Fuera de alcance" |
+- **Ejercicio:** entidad del catálogo (ej. "Press de banca"). Global (seed) o creado por un usuario.
+- **Rutina:** plantilla con una lista ordenada de ejercicios y series objetivo.
+- **Sesión (workout):** entrenamiento real, a partir de una rutina o libre, con los sets ejecutados.
+- **Set:** una serie de un ejercicio dentro de una sesión.
+- **Tipo de métrica:** qué se registra en cada set. `peso_reps` (press de banca), `reps` (dominadas sin lastre), `tiempo` (plancha), `distancia_tiempo` (correr, remo).
+- **RPE:** esfuerzo percibido de un set, de 1 a 10.
+- **PR:** mejor marca histórica de un usuario en un ejercicio. Qué cuenta como PR depende del tipo de métrica (HIST-2).
 
-## Pendientes para aprobar los requirements
+## Decisiones de alcance
 
-_Última actualización: 2026-10-20._ Las preguntas de alcance y las inconsistencias quedaron resueltas (ver tabla de arriba). Falta:
+| Fecha | Decisión |
+|---|---|
+| 2026-10-15 | Login con Google en web y Android. Apple fuera del MVP; en iOS no se muestra Google hasta sumar Apple. |
+| 2026-10-16 | Entran al MVP: cardio (4 tipos de métrica), notas por ejercicio y por sesión, RPE y calculadora de discos. |
+| 2026-10-16 | Offline simplificado en mobile: solo la sesión en curso (07-offline). |
+| 2026-10-16 | MVP = web + Android. El código RN sigue compatible con iOS. |
+| 2026-10-16 | Preferencias en el perfil del backend, compartidas entre web y mobile. |
+| 2026-10-20 | Prácticas técnicas: ADRs, Postgres con constraints e índices, observabilidad básica, CI/CD + IaC, eventos en proceso (ver engineering-standards.md). |
+| 2026-10-21 | Specs reorganizadas por feature en vez de por plataforma. |
 
-- [ ] **Revisión final** de los 3 requirements por la usuaria y pasarlos a ✅ Aprobado.
+## Fuera de alcance del MVP
 
-### Para resolver directamente en `design.md`
-- Sesión en progreso duplicada (backend Req. 5.1.3): ¿se reanuda la existente o se exige cerrarla antes?
-- Decisiones técnicas de auth y login con Google (ver sección siguiente).
-- **Modelado del set por tipo de métrica:** columnas opcionales en una sola tabla `Set` (`weight`, `reps`, `durationSec`, `distanceM`) + validación por tipo, vs. JSON, vs. una tabla por tipo. Propuesta: columnas opcionales + validación en el DTO y un `CHECK` en la base.
-- **Unidades canónicas:** guardar siempre en una unidad fija (propuesta: kg, metros, segundos) y convertir en el cliente según las preferencias, vs. guardar el valor con su unidad original. Afecta a PRs y gráficos.
-- **Idempotencia de sets (backend Req. 5.2.8):** UUID generado en el cliente como id del set (upsert) vs. header `Idempotency-Key`.
-- **Cola offline en mobile (mobile Req. 4.4):** dónde se guarda (MMKV vs SQLite) y cómo se ordenan los reintentos.
-- **Eventos de dominio:** qué efectos secundarios disparan eventos (`SessionFinished`, `SetCompleted`) vs. llamadas directas entre servicios, y si el recálculo de PRs corre dentro de la transacción (Req. 7.5.2) o como handler del evento.
-- **Hosting y pipeline de deploy** (backend Req. 7.7): proveedor, ambientes (dev/prod) y qué se gestiona con Terraform.
+- iOS / App Store y login con Apple.
+- Social: feed, seguir usuarios, rutinas públicas.
+- Notificaciones push (el timer de descanso usa notificaciones locales).
+- Offline completo y offline en web.
+- IA (sugerencia de rutinas, búsqueda semántica).
+- Peso corporal, medidas e integraciones de salud.
+- Kafka/RabbitMQ, Kubernetes, OpenTelemetry.
 
-## Decisiones pendientes para `design.md`
-
-Puntos abiertos detectados durante la revisión de requirements, a resolver al escribir el diseño.
-
-### Autenticación (backend Req. 1.2 / 1.3, web Req. 8.2, mobile Req. 1.1)
-
-- **Duración de tokens:** access token corto (propuesta: 15 min) y refresh token largo (propuesta: 30 días).
-- **Persistencia del refresh token:** guardarlo hasheado en DB (ej. `RefreshToken { id, userId, tokenHash, expiresAt, revokedAt }`), nunca en texto plano.
-- **Rotación de refresh tokens:** cada `/auth/refresh` emite un refresh token nuevo e invalida el anterior; si se reutiliza uno ya rotado, revocar todos los tokens del usuario (detección de robo).
-- **Almacenamiento en el cliente:**
-  - Web: cookie `httpOnly` + `Secure` + `SameSite` (vs. header `Authorization` con token en memoria). Si se usa cookie, definir protección CSRF.
-  - Mobile: Keychain / Keystore vía secure storage (ya definido en mobile Req. 1.1.1).
-- **Rate limiting del login:** definir límite y ventana (propuesta: 5 intentos fallidos por email+IP cada 15 min → `429`), si se limita por IP, por email o ambos, y storage de contadores (memoria con `@nestjs/throttler` alcanza para una instancia; Redis si se escala horizontalmente).
-- **Librerías:** `@nestjs/jwt` + `@nestjs/passport` (`JwtStrategy`, `JwtAuthGuard`) y `@nestjs/throttler`.
-
-### Login con Google (backend Req. 1.5, web Req. 1.2, mobile Req. 1.2)
-
-**Decisión (2026-10-15):** el MVP sale solo con Google en web y Android. Apple queda fuera del MVP. En iOS no se muestra Google hasta sumar Apple (regla de la App Store). Las notas de Apple de abajo quedan como referencia para cuando se incorpore.
-
-- **Flujo:** el cliente obtiene el ID token del proveedor (SDK nativo en Android, Google Identity Services en web) y la API lo verifica y emite sus propios tokens. Alternativa: flujo OAuth server-side con redirect (`passport-google-oauth20`). Propuesta: ID token desde el cliente, porque un solo endpoint (`POST /auth/oauth/:provider`) sirve para web y mobile, y Apple se suma después como otro `:provider`.
-- **Modelo de datos:** `User.passwordHash` pasa a ser opcional + tabla `AuthIdentity { id, userId, provider, providerUserId, email, createdAt }` con unique en `(provider, providerUserId)`.
-- **Vinculación por email:** confirmar la regla de auto-vincular solo con `email_verified = true` (backend Req. 1.5.4), o pedir siempre login con contraseña antes de vincular.
-- **Verificación de tokens:** `google-auth-library` para Google; para Apple, JWKS de `https://appleid.apple.com/auth/keys` (ej. con `jose`). Definir los client IDs por plataforma (web, iOS, Android), porque el `aud` cambia según la plataforma.
-- **Cuentas de desarrollador:** Sign in with Apple requiere una cuenta paga de Apple Developer (USD 99/año) y un dominio verificado para el flujo web. Google requiere un proyecto en Google Cloud Console con la pantalla de consentimiento OAuth configurada.
-- **Rate limiting:** aplicar también a `POST /auth/oauth/:provider`.
+El fuera de alcance propio de cada feature está en su archivo.

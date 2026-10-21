@@ -4,7 +4,7 @@ Clon de [Strong](https://www.strong.app/): aplicación web y mobile para crear y
 
 **MVP:** web + Android. Incluye ejercicios de fuerza y de cardio (tiempo/distancia), RPE y notas, calculadora de discos, login con email o Google, y registro de la sesión en curso sin conexión en mobile. iOS llega junto con el login con Apple.
 
-**Estado:** requirements con el alcance cerrado, a la espera de la aprobación final antes de escribir `design.md`. Todavía no hay código.
+**Estado:** requirements organizados por feature, en revisión. Próximo paso: aprobar y diseñar `01-auth`. Todavía no hay código.
 
 ## Estructura del repo
 
@@ -21,11 +21,13 @@ kawaii-gym/
 
 ## Metodología: Spec-Driven Development
 
-Antes de escribir código, cada feature (o el proyecto completo en sus primeras fases) pasa por 3 documentos en `specs/`:
+Cada feature tiene su carpeta en `specs/features/` y pasa por 3 documentos antes de escribir código:
 
-1. **`requirements-*.md`** — Qué debe hacer el sistema, en formato historia de usuario + criterios de aceptación (EARS).
+1. **`requirements.md`** — Qué debe hacer el sistema (API, web y mobile en el mismo archivo), con historias de usuario y reglas con ids estables. EARS solo para la lógica delicada.
 2. **`design.md`** — Cómo se va a construir: modelo de datos, arquitectura, contratos de API.
 3. **`tasks.md`** — Desglose de tareas de implementación, en orden, basadas en el diseño.
+
+Los features se especifican e implementan de a uno. Las reglas transversales están en `specs/engineering-standards.md`.
 
 Las decisiones técnicas relevantes se documentan como ADRs (Architecture Decision Records) en `docs/adr/`.
 
