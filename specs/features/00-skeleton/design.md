@@ -16,6 +16,7 @@
 ```
 kawaii-gym/
 ├── package.json            # scripts raíz: dev, lint, typecheck, test, build
+├── project.config.json     # nombre, slug y id Android (SK-13)
 ├── pnpm-workspace.yaml     # apps/*, packages/*
 ├── tsconfig.base.json      # strict, compartido por todos
 ├── eslint.config.mjs       # flat config + Prettier
@@ -91,6 +92,16 @@ En cada push a un PR y a `main`:
 5. `pnpm build` de API y web. Mobile solo se valida con typecheck y lint; no se buildea en CI.
 
 Protección de `main` (configurada a mano en GitHub): requiere que el job de CI pase antes de mergear.
+
+## Reutilizable como template (SK-13)
+
+- **Paquetes con scope genérico:** `@app/api`, `@app/web`, `@app/mobile`, `@app/shared`. Renombrar el scope en un proyecto nuevo es un buscar y reemplazar.
+- **Identidad en un solo archivo:** `project.config.json` en la raíz, con `name` (nombre visible), `slug` y `androidPackage`. Lo leen:
+  - la API, para el título de Swagger y el campo `service` de los logs;
+  - la web, para el `<title>` (vía `vite.config.ts`);
+  - mobile, para `name`, `slug` y `android.package` (vía `app.config.ts`, en vez de un `app.json` estático).
+- **Sin dominio:** ni modelos de Prisma, ni pantallas, ni textos de Kawaii Gym. La pantalla de estado es genérica.
+- **Piezas opcionales:** el README del template va a documentar cómo quitar `apps/web` o `apps/mobile` (borrar la carpeta y su paso en el CI).
 
 ## Tests del skeleton
 

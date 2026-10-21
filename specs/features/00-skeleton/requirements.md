@@ -37,6 +37,10 @@ Un esqueleto que funciona de punta a punta, sin features: API, base, web y mobil
 - **SK-11.** Cada PR corre lint, tipos, tests unitarios, e2e de la API contra un PostgreSQL efímero y build (STD-14).
 - **SK-12.** Hay al menos un test unitario y un test e2e (`/health`) corriendo en CI.
 
+**Reutilizable**
+
+- **SK-13.** El skeleton no contiene nada específico de Kawaii Gym. El nombre del proyecto y los identificadores (nombre visible, scope de los paquetes, id de la app Android) se configuran en un solo lugar, para poder extraerlo como template. El estado final queda marcado con el tag `skeleton-v1`.
+
 ## Fuera de alcance
 
 - Deploy, Terraform y ambientes remotos (ADR 0004).
