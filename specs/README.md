@@ -6,6 +6,7 @@ Spec-driven development **por feature**: cada feature pasa por `requirements.md 
 
 | # | Feature | Requirements | Design | Tasks |
 |---|---|---|---|---|
+| 00 | [Walking skeleton](./features/00-skeleton/requirements.md) | 📝 En revisión | 📝 En revisión | 📝 En revisión |
 | 01 | [Autenticación](./features/01-auth/requirements.md) | 📝 En revisión | ⏳ | ⏳ |
 | 02 | [Perfil y preferencias](./features/02-perfil/requirements.md) | 📝 En revisión | ⏳ | ⏳ |
 | 03 | [Catálogo de ejercicios](./features/03-ejercicios/requirements.md) | 📝 En revisión | ⏳ | ⏳ |
@@ -60,6 +61,7 @@ Clon de [Strong](https://www.strong.app/). Un usuario puede:
 | 2026-10-16 | Preferencias en el perfil del backend, compartidas entre web y mobile. |
 | 2026-10-20 | Prácticas técnicas: ADRs, Postgres con constraints e índices, observabilidad básica, CI/CD + IaC, eventos en proceso (ver engineering-standards.md). |
 | 2026-10-21 | Specs reorganizadas por feature en vez de por plataforma. |
+| 2026-10-21 | Walking skeleton (00) antes que los features. Deploy diferido: solo local + CI (ADR 0004). |
 
 ## Fuera de alcance del MVP
 

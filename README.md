@@ -4,7 +4,7 @@ Clon de [Strong](https://www.strong.app/): aplicación web y mobile para crear y
 
 **MVP:** web + Android. Incluye ejercicios de fuerza y de cardio (tiempo/distancia), RPE y notas, calculadora de discos, login con email o Google, y registro de la sesión en curso sin conexión en mobile. iOS llega junto con el login con Apple.
 
-**Estado:** requirements organizados por feature, en revisión. Próximo paso: aprobar y diseñar `01-auth`. Todavía no hay código.
+**Estado:** requirements organizados por feature. En revisión la spec del walking skeleton (`specs/features/00-skeleton/`) y sus ADRs (`docs/adr/`). Todavía no hay código.
 
 ## Estructura del repo
 

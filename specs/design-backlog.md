@@ -6,8 +6,8 @@ Decisiones de "cómo" que salieron al escribir los requirements. Cada una se res
 
 - **Unidades canónicas:** guardar siempre en una unidad fija (propuesta: kg, metros, segundos) y convertir en el cliente según las preferencias, vs. guardar el valor con su unidad original. Afecta a PRs y gráficos.
 - **Eventos de dominio:** qué efectos secundarios disparan eventos (`SessionFinished`, `SetCompleted`) vs. llamadas directas entre servicios.
-- **Hosting y deploy:** proveedor, ambientes (dev/prod) y qué se gestiona con Terraform.
-- **Validación:** class-validator vs. Zod compartido desde `packages/shared`.
+- **Hosting y deploy:** diferido (ADR 0004). Revisar antes de 06-sesiones: proveedor, ambientes (dev/prod) y qué se gestiona con Terraform.
+- ~~**Validación:** class-validator vs. Zod~~ → Zod en `packages/shared` (ADR 0002).
 
 ## 01 — Autenticación
 
