@@ -37,9 +37,23 @@ Backend y ambos frontends comparten el mismo contrato de datos (definido en `pac
 | Preferencias | Se guardan en el perfil del backend (compartidas entre web y mobile): unidades, incremento de peso, descanso por defecto, barra y discos. | Backend Req. 1.4.1, 1.4.5. Web Req. 7.1. |
 | Resto del alcance | Sin cambios. | — |
 
+## Prácticas técnicas (2026-10-20)
+
+Qué tomamos de un roadmap de "backend más allá del CRUD" y qué dejamos afuera, para no sobredimensionar el MVP.
+
+| Práctica | Cómo se aplica en Kawaii Gym | Dónde quedó |
+|---|---|---|
+| ADRs | Cada decisión de la lista "Para resolver directamente en design.md" se documenta como ADR en `docs/adr/`. | Backend Req. 7.8 |
+| PostgreSQL a fondo | Constraints `CHECK` por tipo de métrica, índices para historial/progreso validados con `EXPLAIN ANALYZE`, transacción al finalizar/editar sesión + recálculo de PRs. | Backend Req. 7.4.2, 7.5 |
+| Resiliencia | Sets idempotentes (id generado en el cliente) y cola offline con reintentos y backoff en mobile. | Backend Req. 5.2.8. Mobile Req. 4.4 |
+| Observabilidad básica | Logs JSON con `pino`, request id, `/health` con `@nestjs/terminus`. | Backend Req. 7.6 |
+| CI/CD e IaC | GitHub Actions (lint, tipos, tests, build) en cada PR; infra con Terraform; migraciones automáticas. | Backend Req. 7.7 |
+| Eventos de dominio | En proceso con `@nestjs/event-emitter` (ej. `SessionFinished` → PRs/estadísticas), sin broker externo. Si hace falta trabajo en background, BullMQ + Redis. | A definir en `design.md` |
+| Fuera del MVP | Kafka/RabbitMQ, Kubernetes, OpenTelemetry, durable execution, streaming en tiempo real, IA (pgvector, AI gateway). | Backend "Fuera de alcance" |
+
 ## Pendientes para aprobar los requirements
 
-_Última actualización: 2026-10-16._ Las preguntas de alcance y las inconsistencias quedaron resueltas (ver tabla de arriba). Falta:
+_Última actualización: 2026-10-20._ Las preguntas de alcance y las inconsistencias quedaron resueltas (ver tabla de arriba). Falta:
 
 - [ ] **Revisión final** de los 3 requirements por la usuaria y pasarlos a ✅ Aprobado.
 
@@ -50,6 +64,8 @@ _Última actualización: 2026-10-16._ Las preguntas de alcance y las inconsisten
 - **Unidades canónicas:** guardar siempre en una unidad fija (propuesta: kg, metros, segundos) y convertir en el cliente según las preferencias, vs. guardar el valor con su unidad original. Afecta a PRs y gráficos.
 - **Idempotencia de sets (backend Req. 5.2.8):** UUID generado en el cliente como id del set (upsert) vs. header `Idempotency-Key`.
 - **Cola offline en mobile (mobile Req. 4.4):** dónde se guarda (MMKV vs SQLite) y cómo se ordenan los reintentos.
+- **Eventos de dominio:** qué efectos secundarios disparan eventos (`SessionFinished`, `SetCompleted`) vs. llamadas directas entre servicios, y si el recálculo de PRs corre dentro de la transacción (Req. 7.5.2) o como handler del evento.
+- **Hosting y pipeline de deploy** (backend Req. 7.7): proveedor, ambientes (dev/prod) y qué se gestiona con Terraform.
 
 ## Decisiones pendientes para `design.md`
 

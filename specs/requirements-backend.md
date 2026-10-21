@@ -223,6 +223,24 @@ Este documento define el comportamiento de la API. Es la fuente de verdad del do
 
 ### Requirement 7.4 — Rendimiento y paginación
 1. Todo endpoint de listado (ejercicios, rutinas, historial) SHALL soportar paginación para evitar respuestas ilimitadas.
+2. Las queries de historial y progreso por ejercicio (Req. 6.1, 6.2) SHALL usar índices, comprobado con `EXPLAIN ANALYZE` sobre datos de volumen realista generados con un seed (ej. 2 años de sesiones de varios usuarios).
+
+### Requirement 7.5 — Integridad de datos
+1. La base de datos SHALL reforzar las reglas críticas del dominio con constraints, además de la validación en los DTOs (ej. valores obligatorios de un set según su tipo de métrica, RPE entre 1 y 10, unicidad del identificador de set del cliente).
+2. WHEN se finaliza o se edita una sesión THEN el sistema SHALL guardar los cambios y recalcular los PRs en una única transacción: o se aplica todo, o nada.
+
+### Requirement 7.6 — Observabilidad
+1. El sistema SHALL emitir logs estructurados en JSON (ej. `pino`) con nivel, timestamp y contexto, y SHALL NOT loguear datos sensibles (contraseñas, tokens).
+2. WHEN llega una request THEN el sistema SHALL asignarle un request id (o reutilizar el que envía el cliente en un header) y SHALL incluirlo en todos los logs de esa request y en la respuesta.
+3. El sistema SHALL exponer un endpoint de health check (`/health`) que verifique la conexión a la base de datos.
+
+### Requirement 7.7 — Integración continua y despliegue
+1. WHEN se abre o actualiza un pull request THEN el pipeline de CI (GitHub Actions) SHALL ejecutar lint, chequeo de tipos, tests unitarios y e2e (contra un PostgreSQL efímero) y build, y SHALL bloquear el merge si algo falla.
+2. La infraestructura de los ambientes desplegados SHALL definirse como código (Terraform).
+3. Las migraciones de base de datos (Prisma Migrate) SHALL aplicarse de forma automática y versionada en el despliegue, nunca a mano.
+
+### Requirement 7.8 — Decisiones de arquitectura documentadas
+1. Cada decisión técnica relevante (ej. las listadas en `specs/README.md`, "Para resolver directamente en design.md") SHALL documentarse como un ADR en `docs/adr/` con contexto, opciones consideradas, decisión y consecuencias.
 
 ---
 
@@ -233,6 +251,8 @@ Este documento define el comportamiento de la API. Es la fuente de verdad del do
 - Notificaciones push.
 - Superseries / circuitos como estructura de primera clase (se puede registrar como ejercicios consecutivos sin modelado especial).
 - Sincronización offline completa. En el MVP la API solo garantiza que reenviar un set no lo duplique (Requirement 5.2.8); el resto se define en requirements-mobile.md.
+- Broker de mensajes externo (Kafka, RabbitMQ), orquestación con Kubernetes y tracing distribuido con OpenTelemetry: no se justifican para una sola API. Los efectos secundarios (ej. recalcular PRs al finalizar una sesión) se resuelven en proceso; ver "Prácticas técnicas" en `specs/README.md`.
+- Funcionalidades con IA (ej. sugerencia de rutinas, búsqueda semántica de ejercicios).
 - Calculadora de discos como lógica de servidor: es un cálculo de cliente (vive en `packages/shared`). La API solo guarda su configuración en el perfil (Requirement 1.4.1).
 - **Login con Apple** (se suma cuando se publique en iOS; requiere cuenta de Apple Developer). Al incorporarlo, extender el Requirement 1.5 con:
   - Aceptar emails de relay privado (`@privaterelay.appleid.com`) como email válido.

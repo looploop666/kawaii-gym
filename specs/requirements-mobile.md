@@ -98,7 +98,7 @@ Rol de mobile frente a web: mobile es la app **primaria para entrenar en el gimn
 **Acceptance Criteria:**
 1. WHEN un usuario registra, edita o elimina un set de la sesión en curso sin conexión THEN el sistema SHALL guardar el cambio localmente y SHALL permitir seguir entrenando con normalidad.
 2. WHEN la conexión se restablece THEN el sistema SHALL reintentar automáticamente el envío de los cambios pendientes, en orden, usando identificadores generados en el cliente para no duplicar datos (backend Req. 5.2.8).
-3. IF el envío falla (error del servidor o conflicto) THEN el sistema SHALL mantener los datos locales intactos, SHALL indicar que hay cambios pendientes de enviar y SHALL seguir reintentando, sin bloquear el entrenamiento.
+3. IF el envío falla (error del servidor o conflicto) THEN el sistema SHALL mantener los datos locales intactos, SHALL indicar que hay cambios pendientes de enviar y SHALL seguir reintentando con backoff exponencial (intervalos crecientes con un tope), sin bloquear el entrenamiento.
 4. WHEN un usuario finaliza la sesión sin conexión THEN el sistema SHALL guardar la finalización como pendiente y enviarla cuando vuelva la conexión, después de los sets pendientes.
 5. WHEN la app se cierra o se reinicia con cambios pendientes THEN el sistema SHALL conservarlos en almacenamiento persistente del dispositivo y retomar el reintento al volver a abrirla.
 

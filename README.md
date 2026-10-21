@@ -27,11 +27,15 @@ Antes de escribir código, cada feature (o el proyecto completo en sus primeras 
 2. **`design.md`** — Cómo se va a construir: modelo de datos, arquitectura, contratos de API.
 3. **`tasks.md`** — Desglose de tareas de implementación, en orden, basadas en el diseño.
 
+Las decisiones técnicas relevantes se documentan como ADRs (Architecture Decision Records) en `docs/adr/`.
+
 Ver [`specs/README.md`](./specs/README.md) para el estado actual de cada documento.
 
 ## Stack
 
 - **Backend:** NestJS, TypeScript, Prisma, PostgreSQL, JWT
+- **Observabilidad:** logs estructurados con pino, health check con @nestjs/terminus
+- **CI/CD e infraestructura:** GitHub Actions, Terraform
 - **Web:** React
 - **Mobile:** React Native (Android en el MVP, código compatible con iOS)
 - **Monorepo:** pnpm workspaces
