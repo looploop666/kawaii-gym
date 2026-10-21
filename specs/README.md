@@ -6,7 +6,7 @@ Spec-driven development **por feature**: cada feature pasa por `requirements.md 
 
 | # | Feature | Requirements | Design | Tasks |
 |---|---|---|---|---|
-| 00 | [Walking skeleton](./features/00-skeleton/requirements.md) | 📝 En revisión | 📝 En revisión | 📝 En revisión |
+| 00 | [Walking skeleton](./features/00-skeleton/requirements.md) | ✅ Aprobado | ✅ Aprobado | 🚧 En curso |
 | 01 | [Autenticación](./features/01-auth/requirements.md) | 📝 En revisión | ⏳ | ⏳ |
 | 02 | [Perfil y preferencias](./features/02-perfil/requirements.md) | 📝 En revisión | ⏳ | ⏳ |
 | 03 | [Catálogo de ejercicios](./features/03-ejercicios/requirements.md) | 📝 En revisión | ⏳ | ⏳ |

@@ -1,6 +1,6 @@
 # 00 — Walking skeleton
 
-**Estado:** 📝 En revisión · **Depende de:** —
+**Estado:** ✅ Aprobado · **Depende de:** —
 
 Un esqueleto que funciona de punta a punta, sin features: API, base, web y mobile conectados, con CI. Sirve para que el riesgo técnico aparezca al principio y cada feature se construya sobre algo que ya anda.
 

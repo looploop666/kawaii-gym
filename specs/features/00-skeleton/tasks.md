@@ -1,6 +1,6 @@
 # 00 — Walking skeleton: tareas
 
-**Estado:** 📝 En revisión
+**Estado:** 🚧 En curso
 
 Cada tarea es un commit (o un PR chico) y deja el repo funcionando.
 

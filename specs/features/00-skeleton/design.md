@@ -1,6 +1,6 @@
 # 00 — Walking skeleton: diseño
 
-**Estado:** 📝 En revisión
+**Estado:** ✅ Aprobado
 
 ## Decisiones
 
