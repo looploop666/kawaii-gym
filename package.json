@@ -14,7 +14,7 @@
     "typecheck": "pnpm -r --if-present typecheck",
     "test": "pnpm -r --if-present test",
     "build": "pnpm -r --if-present build",
-    "db:up": "docker compose up -d postgres postgres-test",
+    "db:up": "docker compose up -d --wait postgres postgres-test",
     "db:down": "docker compose down"
   },
   "devDependencies": {

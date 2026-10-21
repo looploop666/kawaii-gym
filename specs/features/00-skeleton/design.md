@@ -80,7 +80,7 @@ Módulos iniciales: `ConfigModule`, `LoggerModule`, `PrismaModule` (global, expo
 ## Base local (`docker-compose.yml`)
 
 - `postgres` (dev, puerto 5432) y `postgres-test` (puerto 5433, con `tmpfs` para que sea rápida y descartable).
-- Imagen `postgres` con versión mayor fijada (ej. `postgres:17`).
+- Imagen `postgres:18-alpine` (versión mayor fijada). `pnpm db:up` espera a que las dos bases estén healthy.
 
 ## CI (`.github/workflows/ci.yml`)
 
