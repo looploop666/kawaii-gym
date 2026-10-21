@@ -1,6 +1,6 @@
 # 0002 — Contrato y validación compartidos con Zod
 
-**Estado:** Propuesto · **Fecha:** 2026-10-21
+**Estado:** Aceptado · **Fecha:** 2026-10-21
 
 ## Contexto
 
@@ -21,3 +21,13 @@ Web y mobile validan formularios con las mismas reglas que la API (ej. valores o
 - Los DTOs de la API se crean con `createZodDto(schema)` en vez de clases decoradas.
 - Swagger sale de los schemas Zod. Hay que verificar que los casos complejos (uniones por tipo de métrica) se documenten bien.
 - Las validaciones que dependen de la base (ej. "el ejercicio existe") siguen en los servicios, no en el schema.
+
+## Para entender la implementación
+
+Como se aleja del Nest de la documentación oficial, al implementarlo (T2 y T7) se explica y se documenta en el código:
+
+- Cómo valida Nest por defecto: `ValidationPipe` + class-transformer + metadata de los decoradores, y qué reemplaza `ZodValidationPipe`.
+- Qué genera `createZodDto(schema)` y por qué Nest lo puede usar como tipo de `@Body()`.
+- Cómo `nestjs-zod` le pasa los schemas a `@nestjs/swagger`.
+- Dónde termina la validación del schema y empieza la de negocio (servicios).
+- Cómo se vería el mismo DTO con class-validator, para comparar.

@@ -5,7 +5,7 @@ Una decisión por archivo, numeradas y nunca borradas. Si una decisión cambia, 
 | # | Decisión | Estado |
 |---|---|---|
 | [0001](./0001-monorepo-pnpm-workspaces.md) | Monorepo con pnpm workspaces | Propuesto |
-| [0002](./0002-contrato-compartido-con-zod.md) | Contrato y validación compartidos con Zod | Propuesto |
+| [0002](./0002-contrato-compartido-con-zod.md) | Contrato y validación compartidos con Zod | Aceptado |
 | [0003](./0003-mobile-con-expo.md) | Mobile con Expo | Propuesto |
 | [0004](./0004-deploy-diferido.md) | Deploy diferido: solo local + CI | Aceptado |
 
