@@ -1,0 +1,7 @@
+pnpm-lock.yaml
+**/dist
+**/coverage
+**/.expo
+
+# Las specs se escriben a mano; Prettier reformatea las tablas y ensucia los diffs.
+*.md

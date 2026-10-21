@@ -1,0 +1,21 @@
+node_modules/
+dist/
+build/
+coverage/
+*.log
+
+# Entorno
+.env
+.env.*
+!.env.example
+
+# Expo
+.expo/
+expo-env.d.ts
+
+# Editores y SO
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
