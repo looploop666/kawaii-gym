@@ -37,13 +37,14 @@ kawaii-gym/
 - **TypeScript strict** en todo el repo. Cada paquete extiende `tsconfig.base.json`.
 - **ESLint (flat config) + Prettier** en la raíz.
 - **Tests:** Jest en la API (lo que trae Nest), Vitest en `shared` y web.
-- Versiones: la última estable de cada herramienta al momento de instalarla, fijadas en el lockfile.
+- Versiones: la última estable de cada herramienta al momento de instalarla, fijadas en el lockfile. Excepción: **TypeScript 6.0**, porque typescript-eslint todavía no soporta TS 7. Como TS 6 ya no carga `@types/*` solo, cada tsconfig declara sus `types`.
 
 ## `packages/shared`
 
 - Exporta schemas Zod y los tipos inferidos (`z.infer`). Primer schema: `HealthResponse { status: 'ok' | 'error', db: 'up' | 'down', version: string }`.
-- Se consume como código TypeScript desde los workspaces (`"main": "src/index.ts"`), sin paso de build propio. Nest, Vite y Metro lo compilan como parte de cada app.
-- `version` sale del `package.json` de `shared`, así web y mobile pueden mostrar con qué versión del contrato están hablando (SK-8).
+- Paquete ESM que compila con `tsc` a `dist/` (JS + `.d.ts`). Las apps lo consumen ya compilado: la API corre en Node, que no ejecuta el `.ts` de un paquete de `node_modules`, y así los tres consumidores lo resuelven igual. Node 22 permite hacer `require()` de ESM, así que Nest puede seguir en CommonJS.
+- Se compila en el `postinstall` de la raíz y en modo watch con `pnpm dev`.
+- `CONTRACT_VERSION` se exporta como constante, y un test verifica que coincida con el `version` del `package.json`. Así web y mobile pueden mostrar con qué versión del contrato están hablando (SK-8).
 
 ## API (`apps/api`)
 

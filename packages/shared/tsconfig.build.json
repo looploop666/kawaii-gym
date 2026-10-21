@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rootDir": "src",
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    // El contrato corre también en el navegador y en mobile: sin tipos de Node.
+    "types": []
+  },
+  "include": ["src"]
+}

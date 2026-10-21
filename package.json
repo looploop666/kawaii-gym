@@ -6,6 +6,7 @@
     "node": ">=22.13"
   },
   "scripts": {
+    "postinstall": "pnpm --filter @app/shared build",
     "dev": "pnpm -r --parallel --if-present dev",
     "lint": "eslint .",
     "format": "prettier --write .",
